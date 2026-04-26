@@ -19,8 +19,8 @@ export default function Login() {
 
   const { register, handleSubmit, setError, formState: { errors } } = useForm({
     defaultValues: {
-      email: "admin@admin.com",
-      password: "password"
+      email: "",
+      password: ""
     }
   });
 
@@ -62,7 +62,7 @@ export default function Login() {
               <span className="gold-text"> {settings.site.name.split(' ').slice(1).join(' ')}</span>
             </>
           ) : (
-            <>Apex<span className="gold-text"> Ascend</span></>
+            <>Adam<span className="gold-text"> Cohen Today</span></>
           )}
         </div>
       </div>
@@ -103,9 +103,9 @@ export default function Login() {
         </Button>
       </form>
 
-      <div className="mt-10 p-3 rounded-lg bg-secondary/40 border border-border/60 text-xs text-muted-foreground text-center">
+      {/* <div className="mt-10 p-3 rounded-lg bg-secondary/40 border border-border/60 text-xs text-muted-foreground text-center">
         Use <strong className="text-foreground">admin@admin.com</strong> / <strong className="text-foreground">password</strong> to enter.
-      </div>
+      </div> */}
     </div>
   );
 }

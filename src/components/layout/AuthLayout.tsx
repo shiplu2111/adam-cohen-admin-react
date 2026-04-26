@@ -4,8 +4,8 @@ import { useAuth } from "@/contexts/AuthContext";
 
 export function AuthLayout() {
   const { settings } = useAuth();
-  
-  const siteName = settings?.site.name || "Apex Ascend";
+
+  const siteName = settings?.site.name || "Adam Cohen Today";
   const nameParts = siteName.split(' ');
   const firstPart = nameParts[0];
   const restPart = nameParts.slice(1).join(' ');
