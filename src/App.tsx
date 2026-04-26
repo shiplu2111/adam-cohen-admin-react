@@ -82,7 +82,7 @@ const App = () => (
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/roles" element={<Roles />} />
 
-                <Route path="/integrations" element={<Placeholder title="Integrations" description="Connect Apex Ascend with your favorite tools." />} />
+                <Route path="/integrations" element={<Placeholder title="Integrations" description="Connect Adam Cohen Today with your favorite tools." />} />
                 <Route path="/maintenance" element={<Placeholder title="Maintenance" description="Backups, cache, queues, logs." />} />
 
                 <Route path="/settings" element={<SettingsLayout />}>

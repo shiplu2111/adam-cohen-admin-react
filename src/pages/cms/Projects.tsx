@@ -32,9 +32,9 @@ export default function Projects() {
     [p.title, p.client, p.category || "", p.location || ""].some(s => s?.toLowerCase().includes(search.toLowerCase()))
   );
 
-  const openNew = () => { 
-    setEditing({ title: "", client: "", status: "Live", category: "PRIVATE EQUITY EXIT", location: "", metric: "", description: "", date: new Date().toISOString().slice(0, 10), order: 0 }); 
-    setOpen(true); 
+  const openNew = () => {
+    setEditing({ title: "", client: "", status: "Live", category: "PRIVATE EQUITY EXIT", location: "", metric: "", description: "", date: new Date().toISOString().slice(0, 10), order: 0 });
+    setOpen(true);
   };
 
   const save = async () => {
@@ -49,18 +49,18 @@ export default function Projects() {
           }
         });
         formData.append('thumbnail_file', editing.thumbnail_file);
-        
+
         if (editing.id) formData.append('_method', 'PUT');
-        
+
         setUploadProgress(0);
         const endpoint = editing.id ? `/projects/${editing.id}` : `/projects`;
-        
+
         await api.post(endpoint, formData, {
           onUploadProgress: (e) => {
             if (e.total) setUploadProgress(Math.round((e.loaded / e.total) * 100));
           }
         });
-        
+
         setUploadProgress(null);
         queryClient.invalidateQueries({ queryKey: ["projects"] });
       } else {
@@ -68,7 +68,7 @@ export default function Projects() {
         if (editing.id) await update(rest);
         else await create(rest);
       }
-      
+
       setOpen(false);
       toast.success("Saved successfully");
     } catch (e) {
@@ -179,9 +179,9 @@ export default function Projects() {
                         <span className="text-sm text-muted-foreground">Upload Project Header</span>
                       </div>
                     )}
-                    <input 
-                      type="file" 
-                      className="absolute inset-0 opacity-0 cursor-pointer" 
+                    <input
+                      type="file"
+                      className="absolute inset-0 opacity-0 cursor-pointer"
                       accept="image/*"
                       onChange={e => {
                         const file = e.target.files?.[0];
@@ -199,7 +199,7 @@ export default function Projects() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2"><Label>Metric / Result</Label><Input value={editing.metric} onChange={e => setEditing({ ...editing, metric: e.target.value })} placeholder="33% IRR" /></div>
-                <div className="space-y-2"><Label>Client</Label><Input value={editing.client} onChange={e => setEditing({ ...editing, client: e.target.value })} placeholder="Apex Global" /></div>
+                <div className="space-y-2"><Label>Client</Label><Input value={editing.client} onChange={e => setEditing({ ...editing, client: e.target.value })} placeholder="ACT Global" /></div>
               </div>
 
               <div className="grid grid-cols-3 gap-4">
@@ -216,7 +216,7 @@ export default function Projects() {
               </div>
 
               <div className="space-y-2"><Label>Description</Label><Textarea rows={3} value={editing.description} onChange={e => setEditing({ ...editing, description: e.target.value })} placeholder="Describe the project objective and results..." /></div>
-              
+
               {uploadProgress !== null && (
                 <div className="w-full space-y-2">
                   <div className="flex justify-between text-[10px] font-bold tracking-widest uppercase text-muted-foreground">

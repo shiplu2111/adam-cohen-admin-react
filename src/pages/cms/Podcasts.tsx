@@ -27,7 +27,7 @@ export default function Podcasts() {
   );
 
   const openNew = () => { setEditing({ title: "", host: "", duration: "", plays: 0, link: "", category: "", episode_number: "", description: "", published_at: new Date().toISOString().slice(0, 10) }); setOpen(true); };
-  
+
   const save = async () => {
     if (!editing?.title) return;
     try {
@@ -74,7 +74,7 @@ export default function Podcasts() {
     <div className="space-y-6">
       <PageHeader
         title="Podcasts"
-        description="Episodes published to the Apex Ascend channel."
+        description="Episodes published to the Adam Cohen Today channel."
         actions={<Button onClick={openNew} className="gold-bg text-primary-foreground"><Plus className="h-4 w-4 mr-2" /> New episode</Button>}
       />
 
@@ -119,7 +119,7 @@ export default function Podcasts() {
           {editing && (
             <div className="space-y-4 max-h-[70vh] overflow-y-auto px-1">
               <div className="space-y-2"><Label>Title</Label><Input value={editing.title} onChange={e => setEditing({ ...editing, title: e.target.value })} /></div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2"><Label>Episode Number</Label><Input value={editing.episode_number || ""} onChange={e => setEditing({ ...editing, episode_number: e.target.value })} placeholder="EP.142" /></div>
                 <div className="space-y-2"><Label>Category / Tag</Label><Input value={editing.category || ""} onChange={e => setEditing({ ...editing, category: e.target.value })} placeholder="FINANCE" /></div>

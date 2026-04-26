@@ -15,7 +15,7 @@ export default function Dashboard() {
     <div className="space-y-6">
       <PageHeader
         title="Dashboard"
-        description="Welcome back — here's what's happening at Apex Ascend."
+        description="Welcome back — here's what's happening at Adam Cohen Today."
         actions={
           <>
             <Button variant="outline" size="sm"><Download className="h-4 w-4 mr-2" /> Export</Button>

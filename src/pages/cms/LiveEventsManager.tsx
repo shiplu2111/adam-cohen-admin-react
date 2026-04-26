@@ -37,18 +37,18 @@ import { cn } from "@/lib/utils";
 
 // ─── Icon options for features ────────────────────────────────────────────────
 const ICON_OPTIONS = [
-  { key: "mic",       Icon: Mic,        label: "Mic" },
-  { key: "lightbulb", Icon: Lightbulb,  label: "Lightbulb" },
-  { key: "network",   Icon: Network,    label: "Network" },
-  { key: "users",     Icon: Users,      label: "Users" },
-  { key: "trophy",    Icon: Trophy,     label: "Trophy" },
-  { key: "star",      Icon: Star,       label: "Star" },
-  { key: "award",     Icon: Award,      label: "Award" },
-  { key: "zap",       Icon: Zap,        label: "Zap" },
-  { key: "target",    Icon: Target,     label: "Target" },
-  { key: "rocket",    Icon: Rocket,     label: "Rocket" },
-  { key: "globe",     Icon: Globe,      label: "Globe" },
-  { key: "calendar",  Icon: Calendar,   label: "Calendar" },
+  { key: "mic", Icon: Mic, label: "Mic" },
+  { key: "lightbulb", Icon: Lightbulb, label: "Lightbulb" },
+  { key: "network", Icon: Network, label: "Network" },
+  { key: "users", Icon: Users, label: "Users" },
+  { key: "trophy", Icon: Trophy, label: "Trophy" },
+  { key: "star", Icon: Star, label: "Star" },
+  { key: "award", Icon: Award, label: "Award" },
+  { key: "zap", Icon: Zap, label: "Zap" },
+  { key: "target", Icon: Target, label: "Target" },
+  { key: "rocket", Icon: Rocket, label: "Rocket" },
+  { key: "globe", Icon: Globe, label: "Globe" },
+  { key: "calendar", Icon: Calendar, label: "Calendar" },
 ];
 
 function IconComponent({ iconKey, className }: { iconKey: string; className?: string }) {
@@ -61,10 +61,10 @@ function IconComponent({ iconKey, className }: { iconKey: string; className?: st
 type Tab = "events" | "features" | "tickets" | "testimonials";
 
 const TABS: { id: Tab; label: string; icon: typeof Calendar }[] = [
-  { id: "events",       label: "Upcoming Events", icon: Calendar },
-  { id: "features",     label: "Event Features",  icon: Mic },
-  { id: "tickets",      label: "Ticket Tiers",    icon: Ticket },
-  { id: "testimonials", label: "Testimonials",    icon: Star },
+  { id: "events", label: "Upcoming Events", icon: Calendar },
+  { id: "features", label: "Event Features", icon: Mic },
+  { id: "tickets", label: "Ticket Tiers", icon: Ticket },
+  { id: "testimonials", label: "Testimonials", icon: Star },
 ];
 
 const STATUS_OPTIONS = ["Registration Open", "Early Bird", "Coming Soon", "Sold Out", "Past"];
@@ -98,9 +98,9 @@ export default function LiveEventsManager() {
         ))}
       </div>
 
-      {activeTab === "events"       && <EventsTab />}
-      {activeTab === "features"     && <FeaturesTab />}
-      {activeTab === "tickets"      && <TicketsTab />}
+      {activeTab === "events" && <EventsTab />}
+      {activeTab === "features" && <FeaturesTab />}
+      {activeTab === "tickets" && <TicketsTab />}
       {activeTab === "testimonials" && <TestimonialsTab />}
     </div>
   );
@@ -128,10 +128,10 @@ function EventsTab() {
 
   const statusColor: Record<string, string> = {
     "Registration Open": "bg-green-500/10 text-green-400 border-green-500/20",
-    "Early Bird":        "bg-blue-500/10 text-blue-400 border-blue-500/20",
-    "Coming Soon":       "bg-amber-500/10 text-amber-400 border-amber-500/20",
-    "Sold Out":          "bg-destructive/10 text-destructive border-destructive/20",
-    "Past":              "bg-secondary text-muted-foreground border-border",
+    "Early Bird": "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    "Coming Soon": "bg-amber-500/10 text-amber-400 border-amber-500/20",
+    "Sold Out": "bg-destructive/10 text-destructive border-destructive/20",
+    "Past": "bg-secondary text-muted-foreground border-border",
   };
 
   return (
@@ -201,7 +201,7 @@ function EventsTab() {
             <div className="space-y-4 py-2">
               <div className="space-y-2">
                 <Label>Event Title</Label>
-                <Input value={editing.title ?? ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} placeholder="The Apex Summit 2025" />
+                <Input value={editing.title ?? ""} onChange={(e) => setEditing({ ...editing, title: e.target.value })} placeholder="The ACT Summit 2025" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -389,7 +389,7 @@ function TicketsTab() {
   };
 
   const save = async () => {
-    if (!editing?.name)  { toast.error("Name is required"); return; }
+    if (!editing?.name) { toast.error("Name is required"); return; }
     if (!editing?.price) { toast.error("Price is required"); return; }
     try {
       if ((editing as LiveEventTicketTier).id) await update(editing);
@@ -541,7 +541,7 @@ function TestimonialsTab() {
   };
 
   const save = async () => {
-    if (!editing?.name)  { toast.error("Name is required"); return; }
+    if (!editing?.name) { toast.error("Name is required"); return; }
     if (!editing?.quote) { toast.error("Quote is required"); return; }
     try {
       if ((editing as LiveEventTestimonial).id) await update(editing);
@@ -615,13 +615,13 @@ function TestimonialsTab() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Event Attended</Label>
-                  <Input value={editing.event ?? ""} onChange={(e) => setEditing({ ...editing, event: e.target.value })} placeholder="Apex Summit 2024" />
+                  <Input value={editing.event ?? ""} onChange={(e) => setEditing({ ...editing, event: e.target.value })} placeholder="ACT Summit 2024" />
                 </div>
                 <div className="space-y-2">
                   <Label>Rating</Label>
                   <Select value={String(editing.rating ?? 5)} onValueChange={(v) => setEditing({ ...editing, rating: Number(v) })}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>{[5,4,3,2,1].map((n) => <SelectItem key={n} value={String(n)}>{n} Stars</SelectItem>)}</SelectContent>
+                    <SelectContent>{[5, 4, 3, 2, 1].map((n) => <SelectItem key={n} value={String(n)}>{n} Stars</SelectItem>)}</SelectContent>
                   </Select>
                 </div>
               </div>

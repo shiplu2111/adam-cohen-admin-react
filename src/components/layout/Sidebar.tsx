@@ -27,7 +27,7 @@ const NAV: { section: string; items: NavItem[] }[] = [
     ],
   },
   {
-    section: "Apex Content",
+    section: "Adam Cohen Today Content",
     items: [
       { label: "Projects", icon: Briefcase, to: "/projects", permission: "read projects" },
       { label: "Services", icon: Sparkles, to: "/services", permission: "read services" },
@@ -148,7 +148,7 @@ export function Sidebar({ collapsed, mobileOpen, onMobileClose }: { collapsed: b
                   <span className="gold-text"> {settings.site.name.split(' ').slice(1).join(' ')}</span>
                 </>
               ) : (
-                <>Apex<span className="gold-text"> Ascend</span></>
+                <>Adam<span className="gold-text"> Cohen Today</span></>
               )}
             </div>
             <div className="text-[10px] tracking-[0.18em] text-muted-foreground uppercase">
