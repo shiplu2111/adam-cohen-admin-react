@@ -401,6 +401,7 @@ function VideosTab({ channels }: { channels: CohenTv[] }) {
     duration: string;
     date: string;
     link: string;
+    type: string;
     order: number;
     is_published: boolean;
     thumbnail_file?: FileList;
@@ -408,6 +409,7 @@ function VideosTab({ channels }: { channels: CohenTv[] }) {
     defaultValues: {
       cohen_tv_id: "",
       title: "",
+      type: "Cohen TV",
       host: "Adam Cohen",
       duration: "",
       date: new Date().toISOString().split("T")[0],
@@ -438,6 +440,7 @@ function VideosTab({ channels }: { channels: CohenTv[] }) {
       const formData = new FormData();
       formData.append("cohen_tv_id", data.cohen_tv_id);
       formData.append("title", data.title);
+      formData.append("type", data.type);
       formData.append("host", data.host);
       formData.append("duration", data.duration);
       formData.append("date", data.date);
@@ -471,6 +474,7 @@ function VideosTab({ channels }: { channels: CohenTv[] }) {
       duration: video.duration || "",
       date: video.date ? video.date.split("T")[0] : "",
       link: video.link,
+      type: video.type || "Cohen TV",
       order: video.order,
       is_published: video.is_published,
     });
@@ -566,6 +570,9 @@ function VideosTab({ channels }: { channels: CohenTv[] }) {
                       {video.channel.platform_name}
                     </Badge>
                   )}
+                  <Badge className={cn("text-[10px] border-none shadow-none", video.type === 'Podcast' ? 'bg-purple-500 text-white' : 'bg-primary text-black')}>
+                    {video.type}
+                  </Badge>
                 </div>
                 <div className="absolute bottom-2 right-2 bg-black/80 px-1.5 py-0.5 rounded text-[10px] text-white font-mono">
                   {video.duration || "0:00"}
@@ -628,9 +635,21 @@ function VideosTab({ channels }: { channels: CohenTv[] }) {
               </select>
             </div>
 
-            <div className="space-y-2">
-              <Label>Video Title *</Label>
-              <Input {...register("title", { required: true })} placeholder="e.g. 10x ROI Strategies" />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Video Title *</Label>
+                <Input {...register("title", { required: true })} placeholder="e.g. 10x ROI Strategies" />
+              </div>
+              <div className="space-y-2">
+                <Label>Video Type *</Label>
+                <select
+                  {...register("type", { required: true })}
+                  className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <option value="Cohen TV">Cohen TV</option>
+                  <option value="Podcast">Podcast</option>
+                </select>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">

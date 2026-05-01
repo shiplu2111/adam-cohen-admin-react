@@ -9,6 +9,7 @@ export interface CohenTvVideo {
   duration: string | null;
   date: string | null;
   link: string;
+  type: 'Cohen TV' | 'Podcast';
   order: number;
   is_published: boolean;
   channel?: CohenTv;
