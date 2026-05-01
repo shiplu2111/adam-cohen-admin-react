@@ -33,7 +33,7 @@ export default function Projects() {
   );
 
   const openNew = () => {
-    setEditing({ title: "", client: "", status: "Live", category: "PRIVATE EQUITY EXIT", location: "", metric: "", description: "", date: new Date().toISOString().slice(0, 10), order: 0 });
+    setEditing({ title: "", client: "", status: "Live", category: "PRIVATE EQUITY EXIT", location: "", metric: "", description: "", date: new Date().toISOString().slice(0, 10), live_url: "", order: 0 });
     setOpen(true);
   };
 
@@ -214,6 +214,8 @@ export default function Projects() {
                 </div>
                 <div className="space-y-2"><Label>Date</Label><Input type="date" value={editing.date} onChange={e => setEditing({ ...editing, date: e.target.value })} /></div>
               </div>
+
+              <div className="space-y-2"><Label>Live Link (Optional)</Label><Input value={editing.live_url} onChange={e => setEditing({ ...editing, live_url: e.target.value })} placeholder="https://example.com" /></div>
 
               <div className="space-y-2"><Label>Description</Label><Textarea rows={3} value={editing.description} onChange={e => setEditing({ ...editing, description: e.target.value })} placeholder="Describe the project objective and results..." /></div>
 

@@ -13,6 +13,7 @@ export interface Project {
   status: "Draft" | "In Progress" | "Live";
   date: string;
   thumbnail?: string;
+  live_url?: string;
   images?: string[];
   order: number;
 }
