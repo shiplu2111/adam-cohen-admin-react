@@ -31,7 +31,7 @@ const NAV: { section: string; items: NavItem[] }[] = [
     items: [
       { label: "Projects", icon: Briefcase, to: "/projects", permission: "read projects" },
       { label: "Services", icon: Sparkles, to: "/services", permission: "read services" },
-      { label: "Podcasts", icon: Mic, to: "/podcasts", permission: "read podcasts" },
+      // { label: "Podcasts", icon: Mic, to: "/podcasts", permission: "read podcasts" },
       { label: "Cohen TV", icon: MonitorPlay, to: "/cohen-tv", permission: "read content" },
       { label: "Podcast Guests", icon: Users, to: "/podcast-registrations", permission: "read content" },
       { label: "Testimonials", icon: Star, to: "/testimonials", permission: "read testimonials" },
