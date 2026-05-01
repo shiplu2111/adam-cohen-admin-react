@@ -114,12 +114,17 @@ export default function PodcastRegistrations() {
     if (!emailReg) return;
     setActionLoading(true);
     try {
-      await api.post(`/podcast-registrations/${emailReg.id}/send-email`, emailData);
-      toast.success("Email sent successfully!");
-      setEmailReg(null);
-      setEmailData({ subject: "", message: "" });
-    } catch {
-      toast.error("Failed to send email");
+      const res = await api.post(`/podcast-registrations/${emailReg.id}/send-email`, emailData);
+      if (res.data.status === "error") {
+        toast.error(res.data.message || "Failed to send email");
+      } else {
+        toast.success("Email sent successfully!");
+        setEmailReg(null);
+        setEmailData({ subject: "", message: "" });
+      }
+    } catch (err: any) {
+      const msg = err?.response?.data?.message || "Failed to send email";
+      toast.error(msg);
     } finally {
       setActionLoading(false);
     }
