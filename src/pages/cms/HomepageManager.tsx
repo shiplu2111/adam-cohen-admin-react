@@ -11,22 +11,73 @@ import { DeleteConfirm } from "@/components/DeleteConfirm";
 import { Edit, Image as ImageIcon, Layout, Plus, Trash2, Loader2, GripVertical, Sparkles, Globe } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { ImageCropper } from "@/components/cms/ImageCropper";
 
 export default function HomepageManager() {
   const { items, isLoading, create, update, remove } = useCms<HeroSlide>("hero");
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Partial<HeroSlide> | null>(null);
+  const [bgFile, setBgFile] = useState<File | null>(null);
+  const [portraitFile, setPortraitFile] = useState<File | null>(null);
+  
+  const [cropImage, setCropImage] = useState<string | null>(null);
+  const [cropType, setCropType] = useState<"bg" | "portrait" | null>(null);
 
   const openNew = () => {
     setEditing({ type: "networking", active: true, order: items.length });
+    setBgFile(null);
+    setPortraitFile(null);
     setOpen(true);
+  };
+
+  const onFileSelect = (e: React.ChangeEvent<HTMLInputElement>, type: "bg" | "portrait") => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setCropImage(reader.result as string);
+        setCropType(type);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const onCropComplete = (blob: Blob) => {
+    const fileName = cropType === "bg" ? "hero-bg.jpg" : "hero-portrait.jpg";
+    const croppedFile = new File([blob], fileName, { type: "image/jpeg" });
+    
+    if (cropType === "bg") setBgFile(croppedFile);
+    if (cropType === "portrait") setPortraitFile(croppedFile);
+    
+    setCropImage(null);
+    setCropType(null);
   };
 
   const save = async () => {
     try {
-      if (editing?.id) await update(editing as HeroSlide);
-      else await create(editing as HeroSlide);
+      const formData = new FormData();
+      if (editing?.id) formData.append("id", editing.id);
+      
+      Object.entries(editing || {}).forEach(([key, value]) => {
+        if (value !== null && value !== undefined && key !== 'bg_image' && key !== 'portrait_image') {
+          formData.append(key, typeof value === 'boolean' ? (value ? '1' : '0') : String(value));
+        }
+      });
+
+      if (bgFile) formData.append("bg_image_file", bgFile);
+      else if (editing?.bg_image) formData.append("bg_image", editing.bg_image);
+
+      if (portraitFile) formData.append("portrait_image_file", portraitFile);
+      else if (editing?.portrait_image) formData.append("portrait_image", editing.portrait_image);
+
+      if (editing?.id) {
+        await update(formData as any);
+      } else {
+        await create(formData as any);
+      }
       setOpen(false);
+      setBgFile(null);
+      setPortraitFile(null);
     } catch (e) { }
   };
 
@@ -65,7 +116,12 @@ export default function HomepageManager() {
                 <div className="flex items-center gap-3">
                   <Switch checked={slide.active} onCheckedChange={(v) => update({ id: slide.id, active: v })} />
                   <div className="flex gap-1 border-l border-border pl-3">
-                    <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => { setEditing(slide); setOpen(true); }}><Edit className="h-4 w-4" /></Button>
+                    <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => { 
+                      setEditing(slide); 
+                      setBgFile(null);
+                      setPortraitFile(null);
+                      setOpen(true); 
+                    }}><Edit className="h-4 w-4" /></Button>
                     <DeleteConfirm
                       trigger={<Button size="icon" variant="ghost" className="h-8 w-8 text-destructive"><Trash2 className="h-4 w-4" /></Button>}
                       title="Delete slide?"
@@ -110,8 +166,43 @@ export default function HomepageManager() {
                 </>
               )}
 
-              <div className="space-y-2"><Label>Background Image URL</Label><Input value={editing.bg_image} onChange={e => setEditing({ ...editing, bg_image: e.target.value })} /></div>
-              <div className="space-y-2"><Label>Portrait Image URL</Label><Input value={editing.portrait_image} onChange={e => setEditing({ ...editing, portrait_image: e.target.value })} /></div>
+              <div className="space-y-2">
+                <Label>Background Image</Label>
+                <div className="flex flex-col gap-2">
+                  {editing.bg_image && !bgFile && (
+                    <img src={editing.bg_image} className="h-20 w-full object-cover rounded-md border" />
+                  )}
+                  {bgFile && (
+                    <div className="h-20 w-full rounded-md border bg-muted flex items-center justify-center text-xs text-muted-foreground">
+                      New file selected: {bgFile.name}
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <Input type="file" accept="image/*" onChange={e => onFileSelect(e, "bg")} className="flex-1" />
+                    {bgFile && <Button variant="ghost" size="icon" onClick={() => setBgFile(null)}><Trash2 className="h-4 w-4" /></Button>}
+                  </div>
+                  <Input placeholder="Or enter URL" value={editing.bg_image || ''} onChange={e => setEditing({ ...editing, bg_image: e.target.value })} />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Portrait Image</Label>
+                <div className="flex flex-col gap-2">
+                  {editing.portrait_image && !portraitFile && (
+                    <img src={editing.portrait_image} className="h-20 w-20 object-cover rounded-md border mx-auto" />
+                  )}
+                  {portraitFile && (
+                    <div className="h-20 w-20 rounded-md border bg-muted flex items-center justify-center text-[10px] text-muted-foreground mx-auto text-center p-1">
+                      {portraitFile.name}
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <Input type="file" accept="image/*" onChange={e => onFileSelect(e, "portrait")} className="flex-1" />
+                    {portraitFile && <Button variant="ghost" size="icon" onClick={() => setPortraitFile(null)}><Trash2 className="h-4 w-4" /></Button>}
+                  </div>
+                  <Input placeholder="Or enter URL" value={editing.portrait_image || ''} onChange={e => setEditing({ ...editing, portrait_image: e.target.value })} />
+                </div>
+              </div>
 
               <div className="col-span-full border-t pt-4 flex items-center justify-between">
                 <div className="flex items-center gap-2"><Switch checked={editing.active} onCheckedChange={v => setEditing({ ...editing, active: v })} /><Label>Visible on website</Label></div>
@@ -124,6 +215,15 @@ export default function HomepageManager() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      
+      <ImageCropper
+        image={cropImage}
+        aspect={cropType === "bg" ? 16 / 7 : 3 / 4}
+        title={`Crop ${cropType === "bg" ? "Background" : "Portrait"} Image`}
+        onCropComplete={onCropComplete}
+        onCancel={() => { setCropImage(null); setCropType(null); }}
+      />
+
       <div className="space-y-4 pt-8 border-t border-border">
         <h3 className="text-lg font-semibold flex items-center gap-2"><Sparkles className="h-5 w-5 gold-text" /> Engagement Stats</h3>
         <p className="text-sm text-muted-foreground mb-4">Manage the follower counts displayed on your homepage.</p>
