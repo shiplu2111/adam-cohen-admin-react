@@ -19,7 +19,7 @@ export default function HomepageManager() {
   const [editing, setEditing] = useState<Partial<HeroSlide> | null>(null);
   const [bgFile, setBgFile] = useState<File | null>(null);
   const [portraitFile, setPortraitFile] = useState<File | null>(null);
-  
+
   const [cropImage, setCropImage] = useState<string | null>(null);
   const [cropType, setCropType] = useState<"bg" | "portrait" | null>(null);
 
@@ -45,10 +45,10 @@ export default function HomepageManager() {
   const onCropComplete = (blob: Blob) => {
     const fileName = cropType === "bg" ? "hero-bg.jpg" : "hero-portrait.jpg";
     const croppedFile = new File([blob], fileName, { type: "image/jpeg" });
-    
+
     if (cropType === "bg") setBgFile(croppedFile);
     if (cropType === "portrait") setPortraitFile(croppedFile);
-    
+
     setCropImage(null);
     setCropType(null);
   };
@@ -57,7 +57,7 @@ export default function HomepageManager() {
     try {
       const formData = new FormData();
       if (editing?.id) formData.append("id", editing.id);
-      
+
       Object.entries(editing || {}).forEach(([key, value]) => {
         if (value !== null && value !== undefined && key !== 'bg_image' && key !== 'portrait_image') {
           formData.append(key, typeof value === 'boolean' ? (value ? '1' : '0') : String(value));
@@ -116,11 +116,11 @@ export default function HomepageManager() {
                 <div className="flex items-center gap-3">
                   <Switch checked={slide.active} onCheckedChange={(v) => update({ id: slide.id, active: v })} />
                   <div className="flex gap-1 border-l border-border pl-3">
-                    <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => { 
-                      setEditing(slide); 
+                    <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => {
+                      setEditing(slide);
                       setBgFile(null);
                       setPortraitFile(null);
-                      setOpen(true); 
+                      setOpen(true);
                     }}><Edit className="h-4 w-4" /></Button>
                     <DeleteConfirm
                       trigger={<Button size="icon" variant="ghost" className="h-8 w-8 text-destructive"><Trash2 className="h-4 w-4" /></Button>}
@@ -215,10 +215,10 @@ export default function HomepageManager() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      
+
       <ImageCropper
         image={cropImage}
-        aspect={cropType === "bg" ? 16 / 7 : 3 / 4}
+        aspect={cropType === "bg" ? 18 / 7 : 2 / 3}
         title={`Crop ${cropType === "bg" ? "Background" : "Portrait"} Image`}
         onCropComplete={onCropComplete}
         onCancel={() => { setCropImage(null); setCropType(null); }}

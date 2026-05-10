@@ -33,6 +33,7 @@ import SubscriberManager from "@/pages/cms/SubscriberManager";
 import HomepageManager from "@/pages/cms/HomepageManager";
 import AboutManager from "@/pages/cms/AboutManager";
 import PodcastRegistrations from "@/pages/cms/PodcastRegistrations";
+import BusinessInquiries from "@/pages/cms/BusinessInquiries";
 
 import SettingsLayout from "@/pages/settings/SettingsLayout";
 import { WebsiteSettings, EmailSettings, PusherSettings, NotificationSettings, ContactSettings } from "@/pages/settings/SettingsPages";
@@ -69,6 +70,7 @@ const App = () => (
                 <Route path="/cohen-tv" element={<CohenTvManager />} />
                 <Route path="/testimonials" element={<Testimonials />} />
                 <Route path="/contacts" element={<Contacts />} />
+                <Route path="/business-inquiries" element={<BusinessInquiries />} />
                 <Route path="/subscribers" element={<SubscriberManager />} />
 
                 <Route path="/emails" element={<Emails />} />
